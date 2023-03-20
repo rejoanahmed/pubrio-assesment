@@ -20,7 +20,9 @@ const NavItem = ({ text, Icon, link, activeWhile, topNav }: NavItemProps) => {
     <div
       className={`group flex items-center justify-center p-4 hover:bg-gray-100 hover:text-blue-300 ${
         !IsTopNav ? 'hover:border-blue-500' : 'hover:border-inherit'
-      } hover:border-b ${isActive && 'bg-gray-100 text-blue-300'}`}
+      } hover:border-b ${isActive && 'border-b bg-gray-100 text-blue-300'} ${
+        !IsTopNav && isActive && 'border-blue-500'
+      }`}
     >
       <Icon sx={{ width: 20, height: 20 }} />
       <Link href={link}>
