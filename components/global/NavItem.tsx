@@ -17,15 +17,15 @@ const NavItem = ({ text, Icon, link, activeWhile }: NavItemProps) => {
   return (
     <div
       className={`group flex items-center justify-center p-4 hover:bg-gray-100 hover:text-blue-300 ${
-        isActive && ' bg-gray-100 text-blue-300 '
+        isActive && 'bg-gray-100 text-blue-300 '
       }`}
     >
       <Icon sx={{ width: 20, height: 20 }} />
       <Link href={link}>
         <h1
-          className={`ml-1 text-gray-600 text-sm group-hover:text-blue-300 ${
-            isActive && ' bg-gray-100 text-blue-300 '
-          }`}
+          className={`ml-1 text-sm group-hover:text-blue-300 ${
+            isActive && 'bg-gray-100'
+          } ${isActive ? 'text-blue-300' : 'text-gray-500'}`}
         >
           {text}
         </h1>
