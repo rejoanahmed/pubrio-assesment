@@ -9,7 +9,7 @@ const TopSearchInput = () => {
       <div
         className={`flex items-center border ${
           searchActive ? 'border-blue-400 ' : ''
-        }rounded h-10 p-2`}
+        }rounded px-2 py-1`}
         style={{
           width: searchActive ? 500 : 300,
           transition: 'width 0.1s ease-in-out'

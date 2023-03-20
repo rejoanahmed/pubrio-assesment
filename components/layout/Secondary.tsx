@@ -47,7 +47,7 @@ export const SearchNavItems: NavItemProps[] = [
 const SecondaryLayout = ({ children, navItems }: Props) => {
   return (
     <>
-      <nav className='flex bg-gray-100 border-b h-14'>
+      <nav className='flex bg-gray-100 border-b h-10'>
         {navItems.map((item, index) => {
           return <NavItem key={index} {...item} />
         })}
