@@ -20,6 +20,7 @@ import LoginIcon from '@mui/icons-material/Login'
 import Image from 'next/image'
 import Link from 'next/link'
 import { signIn, signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 // Components
 import TopSearchInput from '../TopSearchInput.tsx'
@@ -79,6 +80,7 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
   const handleClose = () => {
     setAnchorEl(null)
   }
+  const router = useRouter()
 
   return (
     <>
@@ -125,7 +127,10 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
                 style={{ backgroundColor: open ? '#33346f' : '#a0a0a0' }}
               />
             ) : (
-              <Avatar sx={{ width: 28, height: 28 }} onClick={() => signIn()}>
+              <Avatar
+                sx={{ width: 28, height: 28 }}
+                onClick={() => router.replace('/api/auth/signin')}
+              >
                 <LoginIcon />
               </Avatar>
             )}
