@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { Autocomplete, Button, SvgIconTypeMap, TextField } from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 import Image from 'next/image'
+import TopSearchInput from '../TopSearchInput.tsx'
 const navItems: LeftNavItemProps[] = [
   {
     text: 'Home',
@@ -68,30 +69,7 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
           <div className='flex bg-blue-500 rounded h-10'>
             <Button variant='contained'>Upgrade</Button>
           </div>
-          <Autocomplete
-            onMouseEnter={() => setSearchFocused(true)}
-            onBlur={() => setSearchFocused(false)}
-            disablePortal
-            id='combo-box-demo'
-            freeSolo
-            options={['The Shawshank Redemption', 'The Godfather']}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label='Search'
-                sx={{
-                  width: inputWidth,
-                  transition: 'width 0.2s ease-in-out',
-                  '& .MuiOutlinedInput-root': {
-                    padding: 0
-                  }
-                }}
-                InputLabelProps={{
-                  translate: 'no'
-                }}
-              />
-            )}
-          />
+          <TopSearchInput />
         </div>
       </div>
       {children}
