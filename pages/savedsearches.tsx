@@ -1,14 +1,15 @@
-import React from 'react'
 import PrimaryLayout from '../components/layout/PrimaryLayout'
 import SecondaryLayout, { SearchNavItems } from '../components/layout/Secondary'
 import { NextPageWithLayout } from './_app'
 
-const People: NextPageWithLayout = () => {
-  return <div>People</div>
+const SavedSearches: NextPageWithLayout = () => {
+  return <div>SavedSearches</div>
 }
-People.getLayout = (page) => (
+
+SavedSearches.getLayout = (page) => (
   <PrimaryLayout>
     <SecondaryLayout navItems={SearchNavItems}>{page}</SecondaryLayout>
   </PrimaryLayout>
 )
-export default People
+
+export default SavedSearches

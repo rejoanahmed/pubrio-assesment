@@ -10,17 +10,20 @@ import { OverridableComponent } from '@mui/material/OverridableComponent'
 import Image from 'next/image'
 import TopSearchInput from '../TopSearchInput.tsx'
 import NavItem, { NavItemProps } from '../global/NavItem'
+import { HomeNavItems, SearchNavItems } from './Secondary'
 
 const navItems: NavItemProps[] = [
   {
     text: 'Home',
     Icon: HomeOutlinedIcon,
-    link: '/onboarding'
+    link: '/onboarding',
+    activeWhile: HomeNavItems.map((item) => item.link)
   },
   {
     text: 'Search',
     Icon: SearchIcon,
-    link: '/search'
+    link: '/people',
+    activeWhile: SearchNavItems.map((item) => item.link)
   },
   {
     text: 'Engage',

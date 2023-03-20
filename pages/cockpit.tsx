@@ -1,4 +1,4 @@
-import HomeLayout from '../components/layout/Secondary'
+import SecondaryLayout, { HomeNavItems } from '../components/layout/Secondary'
 import PrimaryLayout from '../components/layout/PrimaryLayout'
 import { NextPageWithLayout } from './_app'
 
@@ -8,7 +8,7 @@ const cockpit: NextPageWithLayout = () => {
 
 cockpit.getLayout = (page) => (
   <PrimaryLayout>
-    <HomeLayout>{page}</HomeLayout>
+    <SecondaryLayout navItems={HomeNavItems}>{page}</SecondaryLayout>
   </PrimaryLayout>
 )
 
