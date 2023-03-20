@@ -1,15 +1,17 @@
-import { FC, ReactNode, useEffect, useState } from 'react'
+import { FC, ReactNode } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Autocomplete, Button, SvgIconTypeMap, TextField } from '@mui/material'
+import { Button, SvgIconTypeMap } from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 import Image from 'next/image'
 import TopSearchInput from '../TopSearchInput.tsx'
-const navItems: LeftNavItemProps[] = [
+import NavItem, { NavItemProps } from '../global/NavItem'
+
+const navItems: NavItemProps[] = [
   {
     text: 'Home',
     Icon: HomeOutlinedIcon,
@@ -35,20 +37,6 @@ type Props = {
   children?: ReactNode
 }
 const PrimaryLayout: FC<Props> = ({ children }) => {
-  const [searchFocused, setSearchFocused] = useState(false)
-  const [inputWidth, setInputWidth] = useState(400)
-  useEffect(() => {
-    if (searchFocused) {
-      setInputWidth(400)
-    } else {
-      setInputWidth(300)
-    }
-
-    return () => {
-      setInputWidth(400)
-    }
-  }, [searchFocused])
-
   return (
     <>
       <div className='flex justify-between border-b-[1px]'>
@@ -62,7 +50,7 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
           />
 
           {navItems.map((item, index) => {
-            return <LeftNavItem key={index} {...item} />
+            return <NavItem key={index} {...item} />
           })}
         </div>
         <div className='flex items-center'>
@@ -74,26 +62,6 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
       </div>
       {children}
     </>
-  )
-}
-
-type LeftNavItemProps = {
-  text?: string
-  Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-    muiName: string
-  }
-  link: string
-}
-const LeftNavItem = ({ text, Icon, link }: LeftNavItemProps) => {
-  const { route } = useRouter()
-  const isActive = route === link
-  return (
-    <div className='flex items-center justify-center p-4 hover:bg-gray-100'>
-      <Icon sx={{ width: 20, height: 20 }} />
-      <Link href={link}>
-        <div className='ml-1 text-gray-600 text-sm'>{text}</div>
-      </Link>
-    </div>
   )
 }
 

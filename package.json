@@ -16,10 +16,12 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "immer": "^9.0.19",
     "next": "latest",
     "next-auth": "^4.20.1",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "zustand": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "latest",
