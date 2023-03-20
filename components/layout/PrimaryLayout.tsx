@@ -17,23 +17,27 @@ const navItems: NavItemProps[] = [
     text: 'Home',
     Icon: HomeOutlinedIcon,
     link: '/onboarding',
-    activeWhile: HomeNavItems.map((item) => item.link)
+    activeWhile: HomeNavItems.map((item) => item.link),
+    topNav: true
   },
   {
     text: 'Search',
     Icon: SearchIcon,
     link: '/people',
-    activeWhile: SearchNavItems.map((item) => item.link)
+    activeWhile: SearchNavItems.map((item) => item.link),
+    topNav: true
   },
   {
     text: 'Engage',
     Icon: SendOutlinedIcon,
-    link: '/engage'
+    link: '/engage',
+    topNav: true
   },
   {
     text: 'Enrich',
     Icon: SyncOutlinedIcon,
-    link: '/enrich'
+    link: '/enrich',
+    topNav: true
   }
 ]
 type Props = {
@@ -42,7 +46,7 @@ type Props = {
 const PrimaryLayout: FC<Props> = ({ children }) => {
   return (
     <>
-      <div className='flex justify-between border-b-[1px]'>
+      <div className='flex justify-between border-b h-16'>
         <div className='flex'>
           <Image
             className='p-3'
