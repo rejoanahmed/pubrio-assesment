@@ -9,6 +9,7 @@ import { SessionProvider } from 'next-auth/react'
 import { ReactElement, ReactNode } from 'react'
 import { NextPage } from 'next'
 import AuthProvider from '../contexts/Authcontext'
+import { Toaster } from 'react-hot-toast'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -42,6 +43,7 @@ export default function MyApp(props: MyAppProps) {
             />
           </Head>
           <ThemeProvider theme={theme}>
+            <Toaster />
             {getLayout(<Component {...pageProps} />)}
           </ThemeProvider>
         </CacheProvider>
