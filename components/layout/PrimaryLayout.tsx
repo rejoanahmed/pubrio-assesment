@@ -1,5 +1,8 @@
 // react
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useState } from 'react'
+
+//hooks
+import useAuth from '../../hooks/useAuth'
 
 // Icons
 import SearchIcon from '@mui/icons-material/Search'
@@ -10,17 +13,29 @@ import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded'
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded'
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
+import { PersonAdd, Settings, Logout } from '@mui/icons-material'
+import LoginIcon from '@mui/icons-material/Login'
 
 // Next imports
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import { signIn, signOut } from 'next-auth/react'
 
 // Components
 import TopSearchInput from '../TopSearchInput.tsx'
 import NavItem, { NavItemProps } from '../global/NavItem'
 import { HomeNavItems, SearchNavItems } from './Secondary'
-import { Avatar, Tooltip } from '@mui/material'
+import {
+  Avatar,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Tooltip
+} from '@mui/material'
+
+// Utils
 import { stringAvatar } from '../../utils/AvatarComponent'
 
 const navItems: NavItemProps[] = [
@@ -55,7 +70,16 @@ type Props = {
   children?: ReactNode
 }
 const PrimaryLayout: FC<Props> = ({ children }) => {
-  const data = useSession()
+  const data = useAuth()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
   return (
     <>
       <div className='flex justify-between border-b h-12'>
@@ -92,10 +116,69 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
               <SettingsRoundedIcon sx={{ width: 20, height: 20 }} />
             </Tooltip>
           </Link>
-          <Avatar
-            {...stringAvatar(data?.data?.user?.name ?? 'Guest User')}
-            sx={{ width: 28, height: 28, fontSize: 14 }}
-          />
+          <IconButton sx={{ padding: 0 }}>
+            {data ? (
+              <Avatar
+                {...stringAvatar(data?.user?.name ?? 'Guest User')}
+                sx={{ width: 28, height: 28, fontSize: 12 }}
+                onClick={handleClick}
+                style={{ backgroundColor: open ? '#33346f' : '#a0a0a0' }}
+              />
+            ) : (
+              <Avatar sx={{ width: 28, height: 28 }} onClick={() => signIn()}>
+                <LoginIcon />
+              </Avatar>
+            )}
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            id='account-menu'
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            PaperProps={{
+              elevation: 3,
+              sx: {
+                overflow: 'visible',
+                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                mt: 1.5,
+                '& .MuiAvatar-root': {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1
+                }
+              }
+            }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            <MenuItem onClick={handleClose}>
+              <Avatar /> Profile
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Avatar /> My account
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <PersonAdd fontSize='small' />
+              </ListItemIcon>
+              Add another account
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <Settings fontSize='small' />
+              </ListItemIcon>
+              Settings
+            </MenuItem>
+            <MenuItem onClick={() => signOut()}>
+              <ListItemIcon>
+                <Logout fontSize='small' />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
         </div>
       </div>
       {children}
