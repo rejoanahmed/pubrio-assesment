@@ -5,24 +5,41 @@ import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from '../src/theme'
 import createEmotionCache from '../src/createEmotionCache'
 import '../styles/globals.css'
+import { SessionProvider } from 'next-auth/react'
+import { ReactElement, ReactNode } from 'react'
+import { NextPage } from 'next'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
 
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
 export interface MyAppProps extends AppProps {
+  Component: NextPageWithLayout
   emotionCache?: EmotionCache
+  session: any
 }
 
 export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    session,
+    pageProps
+  } = props
+
+  const getLayout = Component.getLayout || ((page) => page)
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
-      </Head>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </CacheProvider>
+    <SessionProvider session={session}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name='viewport' content='initial-scale=1, width=device-width' />
+        </Head>
+        <ThemeProvider theme={theme}>
+          {getLayout(<Component {...pageProps} />)}
+        </ThemeProvider>
+      </CacheProvider>
+    </SessionProvider>
   )
 }
