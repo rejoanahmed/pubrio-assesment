@@ -1,4 +1,4 @@
-import HomeLayout from '../components/layout/HomeLayout'
+import HomeLayout from '../components/layout/Secondary'
 import PrimaryLayout from '../components/layout/PrimaryLayout'
 import { NextPageWithLayout } from './_app'
 

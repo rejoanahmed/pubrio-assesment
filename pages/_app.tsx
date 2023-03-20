@@ -18,7 +18,7 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 export interface MyAppProps extends AppProps {
   Component: NextPageWithLayout
   emotionCache?: EmotionCache
-  session: any
+  session?: any
 }
 
 export default function MyApp(props: MyAppProps) {
