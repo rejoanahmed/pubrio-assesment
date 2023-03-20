@@ -1,14 +1,23 @@
+//next
+import { NextPage } from 'next'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
+import { SessionProvider } from 'next-auth/react'
+
+//react
+import { ReactElement, ReactNode } from 'react'
+
+//mui
 import { ThemeProvider } from '@mui/material/styles'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from '../src/theme'
 import createEmotionCache from '../src/createEmotionCache'
 import '../styles/globals.css'
-import { SessionProvider } from 'next-auth/react'
-import { ReactElement, ReactNode } from 'react'
-import { NextPage } from 'next'
+
+//context
 import AuthProvider from '../contexts/Authcontext'
+
+//toast
 import { Toaster } from 'react-hot-toast'
 
 // Client-side cache, shared for the whole session of the user in the browser.
