@@ -2,6 +2,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { Divider } from '@mui/material'
 import { useDeferredValue, useEffect, useState } from 'react'
 import useSWR from 'swr'
+import useAuth from '../../hooks/useAuth'
 import { fetcher } from '../../utils/apiCalls'
 import InputSearchFilter from './InputSearchFilter'
 import PeopleItem, { PeopleItemProps } from './PeopleItem'
@@ -20,18 +21,18 @@ const TopSearchInput = () => {
   const [people, setPeople] = useState<PeopleItemProps[]>([])
   const [recentSearch, setRecentSearch] = useState<PeopleItemProps[]>([
     {
+      avatar: useAuth()?.user?.image || '',
+      company: 'Waymark',
+      gender: 'Male',
+      jobTitle: 'Full Stack Software Engineer',
+      name: 'Rejoan Ahmed'
+    },
+    {
       avatar: 'ZA',
       company: 'Waymark',
       gender: 'Male',
       jobTitle: 'Software Engineer',
       name: 'Zach Ceneviva'
-    },
-    {
-      avatar: 'RA',
-      company: 'Waymark',
-      gender: 'Male',
-      jobTitle: 'Software Engineer',
-      name: 'Rahul Ceneviva'
     },
     {
       avatar: 'SB',
@@ -72,7 +73,7 @@ const TopSearchInput = () => {
       setPeople(filteredPeople)
     }
   }, [query])
-  console.log(data?.results, people)
+
   return (
     <div className='relative'>
       <div
@@ -101,12 +102,12 @@ const TopSearchInput = () => {
             !searchActive && setSearchActive(true)
           }}
           onBlur={() => {
-            !inputValue && setSearchActive(false)
+            setSearchActive(false)
           }}
         />
       </div>
       {searchActive && (
-        <div className='py-4 absolute top-10 rounded-sm border shadow-md w-full backdrop-blur'>
+        <div className='py-4 absolute top-10 rounded-sm border shadow-md w-full backdrop-blur z-10'>
           {!inputValue ? (
             <>
               <div className='px-8'>
