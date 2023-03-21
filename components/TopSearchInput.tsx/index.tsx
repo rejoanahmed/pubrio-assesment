@@ -1,10 +1,10 @@
 import SearchIcon from '@mui/icons-material/Search'
 import { Divider } from '@mui/material'
-import { useDeferredValue, useState } from 'react'
+import { useDeferredValue, useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { fetcher } from '../../utils/apiCalls'
 import InputSearchFilter from './InputSearchFilter'
-import PeopleItem from './PeopleItem'
+import PeopleItem, { PeopleItemProps } from './PeopleItem'
 
 const TopSearchInput = () => {
   const [searchActive, setSearchActive] = useState(false)
@@ -13,6 +13,30 @@ const TopSearchInput = () => {
   const { data } = useSWR('https://randomuser.me/api/?results=5000', fetcher, {
     dedupingInterval: 1000 * 60 * 60 * 24
   })
+  const [recentSearch, setRecentSearch] = useState<PeopleItemProps[]>([
+    {
+      avatar: 'ZA',
+      company: 'Waymark',
+      gender: 'Male',
+      jobTitle: 'Software Engineer',
+      name: 'Zach Ceneviva'
+    },
+    {
+      avatar: 'RA',
+      company: 'Waymark',
+      gender: 'Male',
+      jobTitle: 'Software Engineer',
+      name: 'Rahul Ceneviva'
+    },
+    {
+      avatar: 'SB',
+      company: 'Waymark',
+      gender: 'Female',
+      jobTitle: 'Data Engineer',
+      name: 'Sistania Bong'
+    }
+  ])
+  useEffect(() => {}, [query])
 
   return (
     <div className='relative'>
@@ -21,7 +45,7 @@ const TopSearchInput = () => {
           searchActive ? 'border-blue-400 ' : ''
         }rounded px-2 py-1`}
         style={{
-          width: searchActive ? 800 : 300,
+          width: searchActive ? 700 : 300,
           transition: 'width 0.1s ease-in-out'
         }}
       >
@@ -54,13 +78,14 @@ const TopSearchInput = () => {
                 <InputSearchFilter />
               </div>
               <Divider className='mt-4' />
-              <PeopleItem
-                avatar='ZA'
-                company='Waymark'
-                gender='Male'
-                jobTitle='Software Engineer'
-                name='Zach Ceneviva'
-              />
+              <div className='bg-gray-100 py-2'>
+                <h2 className='px-8 font-bold'>People</h2>
+                <div>
+                  {recentSearch.map((item: any, index: number) => (
+                    <PeopleItem key={index} {...item} />
+                  ))}
+                </div>
+              </div>
             </>
           ) : (
             <>
