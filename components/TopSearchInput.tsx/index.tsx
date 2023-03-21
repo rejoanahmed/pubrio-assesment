@@ -10,9 +10,14 @@ const TopSearchInput = () => {
   const [searchActive, setSearchActive] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const query = useDeferredValue(inputValue)
-  const { data } = useSWR('https://randomuser.me/api/?results=5000', fetcher, {
-    dedupingInterval: 1000 * 60 * 60 * 24
-  })
+  const { data } = useSWR(
+    'https://randomuser.me/api/?results=5000&inc=gender,name,nat,picture,location',
+    fetcher,
+    {
+      dedupingInterval: 1000 * 60 * 60 * 24
+    }
+  )
+  const [people, setPeople] = useState<PeopleItemProps[]>([])
   const [recentSearch, setRecentSearch] = useState<PeopleItemProps[]>([
     {
       avatar: 'ZA',
@@ -36,8 +41,38 @@ const TopSearchInput = () => {
       name: 'Sistania Bong'
     }
   ])
-  useEffect(() => {}, [query])
+  useEffect(() => {
+    if (data) {
+      const randomJObTitle = () =>
+        [
+          'Frontend developer',
+          'Fullstack developer',
+          'Backend developer',
+          'Data Engineer',
+          'DevOps'
+        ][Math.floor(Math.random() * 5)]
 
+      const filteredPeople = data?.results
+        .filter((item: any) => {
+          const name = `${item.name.first} ${item.name.last}`
+          return name.toLowerCase().includes(query.toLowerCase())
+        })
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 8)
+        .map((item: any) => {
+          return {
+            avatar: item.picture.thumbnail,
+            company: item.location.country,
+            jobTitle: randomJObTitle(),
+            name: `${item.name.first} ${item.name.last}`,
+            gender: item.gender
+          }
+        })
+
+      setPeople(filteredPeople)
+    }
+  }, [query])
+  console.log(data?.results, people)
   return (
     <div className='relative'>
       <div
@@ -79,7 +114,7 @@ const TopSearchInput = () => {
               </div>
               <Divider className='mt-4' />
               <div className='bg-gray-100 py-2'>
-                <h2 className='px-8 font-bold'>People</h2>
+                <h2 className='px-8 font-bold'>Recent People Searches</h2>
                 <div>
                   {recentSearch.map((item: any, index: number) => (
                     <PeopleItem key={index} {...item} />
@@ -89,7 +124,14 @@ const TopSearchInput = () => {
             </>
           ) : (
             <>
-              <div></div>
+              <div className='bg-gray-100 py-2'>
+                <h2 className='px-8 font-bold'>People</h2>
+                <div>
+                  {people.map((item: any, index: number) => (
+                    <PeopleItem key={index} {...item} />
+                  ))}
+                </div>
+              </div>
             </>
           )}
         </div>
