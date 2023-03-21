@@ -1,9 +1,19 @@
 import SearchIcon from '@mui/icons-material/Search'
-import { useState } from 'react'
+import { Divider } from '@mui/material'
+import { useDeferredValue, useState } from 'react'
+import useSWR from 'swr'
+import { fetcher } from '../../utils/apiCalls'
+import InputSearchFilter from './InputSearchFilter'
+import PeopleItem from './PeopleItem'
 
 const TopSearchInput = () => {
   const [searchActive, setSearchActive] = useState(false)
   const [inputValue, setInputValue] = useState('')
+  const query = useDeferredValue(inputValue)
+  const { data } = useSWR('https://randomuser.me/api/?results=5000', fetcher, {
+    dedupingInterval: 1000 * 60 * 60 * 24
+  })
+
   return (
     <div className='relative'>
       <div
@@ -11,7 +21,7 @@ const TopSearchInput = () => {
           searchActive ? 'border-blue-400 ' : ''
         }rounded px-2 py-1`}
         style={{
-          width: searchActive ? 500 : 300,
+          width: searchActive ? 800 : 300,
           transition: 'width 0.1s ease-in-out'
         }}
       >
@@ -37,10 +47,20 @@ const TopSearchInput = () => {
         />
       </div>
       {searchActive && (
-        <div className='absolute top-7 rounded-sm border shadow-sm w-full blur-md h-96'>
+        <div className='py-4 absolute top-10 rounded-sm border shadow-md w-full backdrop-blur'>
           {!inputValue ? (
             <>
-              <div className='px-4 pt-4 pb-3'></div>
+              <div className='px-8'>
+                <InputSearchFilter />
+              </div>
+              <Divider className='mt-4' />
+              <PeopleItem
+                avatar='ZA'
+                company='Waymark'
+                gender='Male'
+                jobTitle='Software Engineer'
+                name='Zach Ceneviva'
+              />
             </>
           ) : (
             <>
