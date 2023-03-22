@@ -81,7 +81,7 @@ const TopSearchInput = () => {
           searchActive ? 'border-blue-400 ' : ''
         }rounded px-2 py-1`}
         style={{
-          width: searchActive ? 700 : 300,
+          width: searchActive ? '40vw' : 250,
           transition: 'width 0.1s ease-in-out'
         }}
       >
