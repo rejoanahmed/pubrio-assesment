@@ -3,7 +3,9 @@ import { Divider } from '@mui/material'
 import { useDeferredValue, useEffect, useState } from 'react'
 import useSWR from 'swr'
 import useAuth from '../../hooks/useAuth'
+import usePeopleStore from '../../store/peopleStore'
 import { fetcher } from '../../utils/apiCalls'
+import { randomJObTitle } from '../../utils/randomJob'
 import InputSearchFilter from './InputSearchFilter'
 import PeopleItem, { PeopleItemProps } from './PeopleItem'
 
@@ -18,6 +20,8 @@ const TopSearchInput = () => {
       dedupingInterval: 1000 * 60 * 60 * 24
     }
   )
+  const populatePeopleStore = usePeopleStore((state) => state.setPeople)
+  console.log(usePeopleStore((state) => state.people))
   const [people, setPeople] = useState<PeopleItemProps[]>([])
   const [recentSearch, setRecentSearch] = useState<PeopleItemProps[]>([
     {
@@ -43,17 +47,22 @@ const TopSearchInput = () => {
     }
   ])
   useEffect(() => {
+    data &&
+      populatePeopleStore(
+        data.results.slice(0, 30).map((item: any) => {
+          return {
+            avatar: item.picture.thumbnail,
+            company: item.location.country,
+            jobTitle: randomJObTitle(),
+            name: `${item.name.first} ${item.name.last}`,
+            gender: item.gender
+          }
+        })
+      )
+  }, [data])
+  useEffect(() => {
     if (data) {
-      const randomJObTitle = () =>
-        [
-          'Frontend developer',
-          'Fullstack developer',
-          'Backend developer',
-          'Data Engineer',
-          'DevOps'
-        ][Math.floor(Math.random() * 5)]
-
-      const filteredPeople = data?.results
+      const filteredPeople = data.results
         .filter((item: any) => {
           const name = `${item.name.first} ${item.name.last}`
           return name.toLowerCase().includes(query.toLowerCase())

@@ -84,7 +84,7 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
 
   return (
     <>
-      <div className='flex justify-between border-b h-12'>
+      <div className='flex sticky top-0 bg-white z-50 justify-between border-b h-12'>
         <div className='flex'>
           <Image
             className='p-2'
@@ -118,19 +118,20 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
               <SettingsRoundedIcon sx={{ width: 20, height: 20 }} />
             </Tooltip>
           </Link>
-          <IconButton sx={{ padding: 0 }}>
+          <IconButton
+            sx={{ padding: 0 }}
+            onClick={
+              data ? handleClick : () => router.replace('/api/auth/signin')
+            }
+          >
             {data ? (
               <Avatar
                 {...stringAvatar(data?.user?.name ?? 'Guest User')}
                 sx={{ width: 28, height: 28, fontSize: 12 }}
-                onClick={handleClick}
                 style={{ backgroundColor: open ? '#33346f' : '#a0a0a0' }}
               />
             ) : (
-              <Avatar
-                sx={{ width: 28, height: 28 }}
-                onClick={() => router.replace('/api/auth/signin')}
-              >
+              <Avatar sx={{ width: 28, height: 28 }}>
                 <LoginIcon />
               </Avatar>
             )}
