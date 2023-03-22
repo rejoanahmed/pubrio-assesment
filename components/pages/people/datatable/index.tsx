@@ -11,7 +11,7 @@ import { columns, rows } from '../../../../fakeData/datatable'
 
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [rowsPerPage, setRowsPerPage] = React.useState(25)
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
@@ -36,12 +36,13 @@ export default function StickyHeadTable() {
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                   sx={{
+                    backgroundColor: 'pink',
+                    borderBottom: '1px solid black',
+                    borderRight: '1px solid black',
                     '&:first-child': {
                       position: 'sticky',
                       left: 0,
-                      backgroundColor: 'purple',
-                      zIndex: 10,
-                      border: '1px solid black'
+                      zIndex: 10
                     }
                   }}
                 >
