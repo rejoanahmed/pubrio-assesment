@@ -84,7 +84,7 @@ const TopSearchInput = () => {
   }, [query])
 
   return (
-    <div className='relative'>
+    <div className='relative z-50'>
       <div
         className={`flex items-center border ${
           searchActive ? 'border-blue-400 ' : ''
@@ -116,7 +116,7 @@ const TopSearchInput = () => {
         />
       </div>
       {searchActive && (
-        <div className='py-4 absolute top-10 rounded-sm border shadow-md w-full backdrop-blur z-10'>
+        <div className='py-4 absolute top-10 rounded-sm border shadow-md w-full backdrop-blur z-30'>
           {!inputValue ? (
             <>
               <div className='px-8'>

@@ -84,7 +84,7 @@ const PrimaryLayout: FC<Props> = ({ children }) => {
 
   return (
     <>
-      <div className='flex sticky top-0 bg-white z-50 justify-between border-b h-12'>
+      <div className='flex sticky top-0 bg-white z-30 justify-between border-b h-12'>
         <div className='flex'>
           <Image
             className='p-2'
