@@ -12,7 +12,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (data) {
       setUser(data)
-      !toasted && toast.success('Welcome back!')
+      !toasted && toast.success(`Welcome back ${data.user?.name}!`)
       setToasted(true)
     }
   }, [data])
